@@ -14,7 +14,6 @@ const Card = styled.div`
   background-color: ${(props) => props.theme.cardColor};
 `;
 const DraggableCard = ({ toDo, index }: IDragabbleCardProps) => {
-  console.log(`${toDo} has been chagned`);
   return (
     <Draggable key={toDo} draggableId={toDo} index={index}>
       {(provided) => (

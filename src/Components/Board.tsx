@@ -4,7 +4,7 @@ import DraggableCard from "./DraggableCard";
 import { useForm } from "react-hook-form";
 import { ITodo, toDoState } from "../atoms";
 import { useSetRecoilState } from "recoil";
-
+import { DropResult } from "react-beautiful-dnd";
 const Wrapper = styled.div<{ isDragging: boolean }>`
   width: 14vw;
   background-color: ${(props) => props.theme.boardColor};
@@ -20,6 +20,9 @@ const Title = styled.h2`
   font-weight: 600;
   margin-bottom: 10px;
   font-size: 18px;
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
 `;
 
 interface IAreaProps {
@@ -74,7 +77,13 @@ function Board({ toDos, boardId, index }: IBoardProps) {
 
     setValue("toDo", "");
   };
-
+  const onDeleteClick = () => {
+    setToDos((prev) => {
+      const cp = { ...prev };
+      delete cp[boardId];
+      return { ...cp };
+    });
+  };
   return (
     <Draggable draggableId={boardId} index={index}>
       {(provided, snapshot) => (
@@ -88,7 +97,16 @@ function Board({ toDos, boardId, index }: IBoardProps) {
             {...provided.dragHandleProps}
             isDragging={snapshot.isDragging}
           >
-            <Title>{boardId}</Title>
+            <Title>
+              {boardId}{" "}
+              <button
+                onClick={() => {
+                  onDeleteClick();
+                }}
+              >
+                delete
+              </button>
+            </Title>
             <Form onSubmit={handleSubmit(onValid)}>
               <input
                 {...register("toDo", { required: true })}
@@ -111,6 +129,7 @@ function Board({ toDos, boardId, index }: IBoardProps) {
                     index={index}
                     toDoId={toDo.id}
                     toDoText={toDo.text}
+                    boardId={boardId}
                   />
                 ))}
                 {magic.placeholder}

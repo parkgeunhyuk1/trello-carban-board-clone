@@ -13,6 +13,7 @@ const Wrapper = styled.div<{ isDragging: boolean }>`
   min-height: 300px;
   display: flex;
   flex-direction: column;
+  height: 360px;
 `;
 
 const Title = styled.h2`
@@ -51,17 +52,16 @@ interface IBoardProps {
   toDos: ITodo[];
   boardId: string;
   index: number;
+  boards: {};
 }
 
 interface IForm {
   toDo: string;
 }
 
-function Board({ toDos, boardId, index }: IBoardProps) {
+function Board({ toDos, boardId, index, boards }: IBoardProps) {
   const setToDos = useSetRecoilState(toDoState);
-  const { register, setValue, handleSubmit } = useForm<IForm>({
-    /* mode: "onBlur", */
-  });
+  const { register, setValue, handleSubmit } = useForm<IForm>({});
   const onValid = ({ toDo }: IForm) => {
     const newToDo = {
       id: Date.now(),
@@ -101,7 +101,10 @@ function Board({ toDos, boardId, index }: IBoardProps) {
               {boardId}{" "}
               <button
                 onClick={() => {
-                  onDeleteClick();
+                  console.log(typeof boards);
+                  if (Object.keys(boards).length >= 3) {
+                    onDeleteClick();
+                  }
                 }}
               >
                 delete

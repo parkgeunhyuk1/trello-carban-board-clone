@@ -155,6 +155,7 @@ function App() {
                   key={boardId}
                   toDos={toDos[boardId]}
                   index={index}
+                  boards={toDos}
                 />
               ))}
               {provided.placeholder}

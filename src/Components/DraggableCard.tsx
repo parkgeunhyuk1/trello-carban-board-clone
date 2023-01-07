@@ -1,3 +1,4 @@
+import { ALL } from "dns";
 import React from "react";
 import { Draggable, DropResult } from "react-beautiful-dnd";
 import { useSetRecoilState } from "recoil";
@@ -10,7 +11,6 @@ interface IDragabbleCardProps {
   index: number;
   boardId: string;
 }
-
 const Card = styled.div`
   border-radius: 5px;
   margin-bottom: 5px;
@@ -29,17 +29,13 @@ const DraggableCard = ({
   const setToDos = useSetRecoilState(toDoState);
   const onDeleteClick = () => {
     setToDos((prev) => {
-      const cp = { ...prev };
-      console.log(cp);
-      console.log(toDoId);
-      console.log(cp[boardId]);
-      console.log(cp[boardId][index]);
-      const result = cp[boardId].filter((item) => item.id === toDoId);
+      let cp = { ...prev };
+      const result = cp[boardId].filter((item) => item.id !== toDoId);
       console.log(result);
-      return { ...cp, result }; //그래서 여기에 ...cp 붙여주면 되는데? 왜 result 시발
+      cp[boardId] = result;
+      return cp;
     });
   };
-  //문제점: 필터로 다른 보드까지 다건드리는거임 지금. 그리고 왜 result로 바뀌는지 파악해봐야함
 
   return (
     <Draggable draggableId={toDoId + ""} index={index}>

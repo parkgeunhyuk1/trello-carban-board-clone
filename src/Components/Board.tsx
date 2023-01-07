@@ -2,9 +2,10 @@ import styled from "styled-components";
 import { Draggable, Droppable } from "react-beautiful-dnd";
 import DraggableCard from "./DraggableCard";
 import { useForm } from "react-hook-form";
-import { ITodo, toDoState } from "../atoms";
+import { ITodo, IToDoState, toDoState } from "../atoms";
 import { useSetRecoilState } from "recoil";
 import { DropResult } from "react-beautiful-dnd";
+import { useEffect, useState } from "react";
 const Wrapper = styled.div<{ isDragging: boolean }>`
   width: 14vw;
   background-color: ${(props) => props.theme.boardColor};
@@ -52,7 +53,7 @@ interface IBoardProps {
   toDos: ITodo[];
   boardId: string;
   index: number;
-  boards: {};
+  boards: IToDoState;
 }
 
 interface IForm {
@@ -77,18 +78,32 @@ function Board({ toDos, boardId, index, boards }: IBoardProps) {
 
     setValue("toDo", "");
   };
-  const onDeleteClick = () => {
-    setToDos((prev) => {
-      const cp = { ...prev };
+  const onHandleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setToDos((boards) => {
+      const cp = { ...boards };
+      cp[boardName] = cp[boardId];
+      console.log(cp[boardName]);
       delete cp[boardId];
+      console.log(index);
       return { ...cp };
     });
   };
+
+  const onDeleteClick = () => {
+    setToDos((allBoards) => {
+      let copyBoards = { ...allBoards };
+      delete copyBoards[boardId];
+      return { ...copyBoards };
+    });
+  };
+  const [editForm, setEditForm] = useState(false);
+  const [boardName, setBoardName] = useState("");
   return (
     <Draggable draggableId={boardId} index={index}>
       {(provided, snapshot) => (
         <Wrapper
-          key={index} // index -> boardId
+          key={index}
           ref={provided.innerRef}
           isDragging={snapshot.isDragging}
           {...provided.draggableProps}
@@ -97,19 +112,40 @@ function Board({ toDos, boardId, index, boards }: IBoardProps) {
             {...provided.dragHandleProps}
             isDragging={snapshot.isDragging}
           >
-            <Title>
-              {boardId}{" "}
-              <button
+            {editForm === false ? (
+              <Title
                 onClick={() => {
-                  console.log(typeof boards);
-                  if (Object.keys(boards).length >= 3) {
-                    onDeleteClick();
-                  }
+                  setEditForm((prev) => !prev);
                 }}
               >
-                delete
-              </button>
-            </Title>
+                <span>{boardId}</span>
+                <button
+                  onClick={() => {
+                    if (Object.keys(boards).length >= 3) {
+                      onDeleteClick();
+                    } else {
+                      alert("2개 이하일 경우, 삭제가 되지 않습니다.");
+                    }
+                  }}
+                >
+                  delete
+                </button>
+              </Title>
+            ) : (
+              <Form onSubmit={onHandleSubmit}>
+                <input
+                  onChange={(e) => {
+                    e.preventDefault();
+                    console.log("음", Object.keys(boards));
+                    console.log(boards);
+                    console.log("보드아이디", boardId);
+                    console.log(index);
+                    setBoardName(e.target.value);
+                    console.log(boardName);
+                  }}
+                />
+              </Form>
+            )}
             <Form onSubmit={handleSubmit(onValid)}>
               <input
                 {...register("toDo", { required: true })}

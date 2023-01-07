@@ -28,12 +28,12 @@ const DraggableCard = ({
 }: IDragabbleCardProps) => {
   const setToDos = useSetRecoilState(toDoState);
   const onDeleteClick = () => {
-    setToDos((prev) => {
-      let cp = { ...prev };
-      const result = cp[boardId].filter((item) => item.id !== toDoId);
+    setToDos((allBoards) => {
+      let copyBoards = { ...allBoards };
+      const result = copyBoards[boardId].filter((item) => item.id !== toDoId);
       console.log(result);
-      cp[boardId] = result;
-      return cp;
+      copyBoards[boardId] = result;
+      return copyBoards;
     });
   };
 

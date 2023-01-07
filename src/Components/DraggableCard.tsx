@@ -1,4 +1,3 @@
-import { ALL } from "dns";
 import React, { useState } from "react";
 import { Draggable, DropResult } from "react-beautiful-dnd";
 import { useSetRecoilState } from "recoil";
@@ -58,8 +57,8 @@ const DraggableCard = ({
       alert("한글자 이상 써주세요");
       return;
     }
-    setToDos((allBoards) => {
-      let copyBoards = { ...allBoards };
+    setToDos((boards) => {
+      let copyBoards = { ...boards };
       console.log(copyBoards[boardId][index]);
       copyBoards[boardId][index]["text"] = textEdited;
       setEditState((prev) => !prev);

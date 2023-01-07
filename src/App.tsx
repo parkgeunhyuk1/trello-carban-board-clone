@@ -1,6 +1,5 @@
 import {
   DragDropContext,
-  Draggable,
   Droppable,
   DroppableProvided,
   DroppableStateSnapshot,
@@ -12,17 +11,14 @@ import { finished } from "stream";
 import styled from "styled-components";
 import { toDoState } from "./atoms";
 import Board from "./Components/Board";
-import DraggableCard from "./Components/DraggableCard";
 
 const Wrapper = styled.div`
   display: flex;
   width: 100%;
-  margin: 0 auto;
   height: 100vh;
+  margin-top: 10vh;
 `;
-interface IEvent {
-  event: string;
-}
+
 interface IForm {
   addToDo: string;
 }
@@ -134,7 +130,6 @@ function App() {
   };
   return (
     <DragDropContext onDragEnd={onDragEnd}>
-      <h1>Algorima</h1>
       <Wrapper>
         <Droppable droppableId="Boards" direction="horizontal" type="BOARD">
           {(

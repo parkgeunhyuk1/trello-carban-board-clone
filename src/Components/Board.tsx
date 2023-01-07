@@ -35,6 +35,7 @@ interface IAreaProps {
 const Area = styled.div<IAreaProps>`
   flex-grow: 1;
   padding: 20px;
+  overflow: auto;
 `;
 
 const Form = styled.form`
@@ -80,12 +81,14 @@ function Board({ toDos, boardId, index, boards }: IBoardProps) {
   };
   const onHandleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (boardName === "") {
+      alert("한글자 이상 써주세요");
+      return;
+    }
     setToDos((boards) => {
-      const cp = { ...boards };
+      let cp = { ...boards };
       cp[boardName] = cp[boardId];
-      console.log(cp[boardName]);
       delete cp[boardId];
-      console.log(index);
       return { ...cp };
     });
   };
@@ -137,6 +140,7 @@ function Board({ toDos, boardId, index, boards }: IBoardProps) {
                   onChange={(e) => {
                     e.preventDefault();
                     console.log("음", Object.keys(boards));
+                    console.log("1", boards[boardId]);
                     console.log(boards);
                     console.log("보드아이디", boardId);
                     console.log(index);
@@ -169,6 +173,7 @@ function Board({ toDos, boardId, index, boards }: IBoardProps) {
                     toDoId={toDo.id}
                     toDoText={toDo.text}
                     boardId={boardId}
+                    boards={boards}
                   />
                 ))}
                 {magic.placeholder}

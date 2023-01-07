@@ -60,8 +60,6 @@ function App() {
     if (type === "CARD" && destination?.droppableId === source.droppableId) {
       //same board movement
       setToDos((allBoards) => {
-        console.log({ ...allBoards });
-        console.log(type);
         const boardCopy = [...allBoards[source.droppableId]];
         const taskObj = boardCopy[source.index];
         boardCopy.splice(source.index, 1);

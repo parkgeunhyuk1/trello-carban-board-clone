@@ -54,6 +54,7 @@ const DraggableCard = ({
     e.preventDefault();
     if (textEdited === "") {
       alert("한글자 이상 써주세요");
+      setEditState((prev) => !prev);
       return;
     }
     setToDos((boards) => {

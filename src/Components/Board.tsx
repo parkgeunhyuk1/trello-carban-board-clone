@@ -135,6 +135,7 @@ function Board({ toDos, boardId, index, boards }: IBoardProps) {
                       onDeleteClick();
                     } else {
                       alert("2개 이하일 경우, 삭제가 되지 않습니다.");
+                      setEditForm((prev) => !prev);
                     }
                   }}
                 >

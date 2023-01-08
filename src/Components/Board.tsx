@@ -139,13 +139,6 @@ function Board({ toDos, boardId, index, boards }: IBoardProps) {
                 <input
                   onChange={(e) => {
                     e.preventDefault();
-                    console.log("음", Object.keys(boards));
-                    console.log("1", boards[boardId]);
-                    console.log(boards);
-                    console.log("보드아이디", boardId);
-                    console.log(index);
-                    setBoardName(e.target.value);
-                    console.log(boardName);
                   }}
                 />
               </Form>

@@ -60,7 +60,7 @@ const DraggableCard = ({
     setToDos((boards) => {
       let copyBoards = { ...boards };
       console.log(copyBoards[boardId][index]);
-      copyBoards[boardId][index]["text"] = textEdited;
+      copyBoards[boardId][index].text = textEdited;
       setEditState((prev) => !prev);
       return { ...copyBoards };
     });

@@ -9,7 +9,7 @@ interface IDragabbleCardProps {
   toDoText: string;
   index: number;
   boardId: string;
-  boards: any;
+  boards: IToDoState;
 }
 const Card = styled.div`
   border-radius: 5px;
@@ -59,9 +59,6 @@ const DraggableCard = ({
     }
     setToDos((boards) => {
       const copyBoards = JSON.parse(JSON.stringify(boards));
-      console.log("카피보드", copyBoards);
-      console.log("보드아이디", copyBoards[boardId]);
-      console.log("인덱스", copyBoards[boardId][index]);
       copyBoards[boardId][index].text = textEdited;
       setEditState((prev) => !prev);
       return { ...copyBoards };

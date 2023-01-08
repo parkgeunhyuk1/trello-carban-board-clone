@@ -79,6 +79,28 @@ function Board({ toDos, boardId, index, boards }: IBoardProps) {
 
     setValue("toDo", "");
   };
+  // const onHandleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  //   e.preventDefault();
+  //   if (boardName === "") {
+  //     alert("한글자 이상 써주세요");
+  //     return;
+  //   }
+  //   setToDos((boards) => {
+  //     let boardList = Object.keys(boards);
+  //     let taskObj = boardList[index];
+  //     boardList.splice(index, 1);
+  //     boardList.splice(index, 0, taskObj);
+  //     let allBoards = {};
+  //     boardList.map((board) => {
+  //       console.log(board);
+  //       allBoards = { ...allBoards, [board]: boards[board] };
+  //     });
+  //     setEditForm((prev) => !prev);
+  //     return {
+  //       ...allBoards,
+  //     };
+  //   });
+  // };
   const onHandleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (boardName === "") {
@@ -87,9 +109,28 @@ function Board({ toDos, boardId, index, boards }: IBoardProps) {
     }
     setToDos((boards) => {
       let cp = { ...boards };
+      console.log("ㄱ", cp[boardId]);
+      cp[boardName] = cp[boardId];
+      delete cp[boardId];
+      console.log("ㄴ", cp[boardName]);
       console.log(cp);
+      const boardList = Object.keys(cp);
+      console.log(boardList.length);
+      const taskObj = boardList[boardList.length - 1];
+      console.log(taskObj);
+      console.log("전", boardList);
+      boardList.splice(boardList.length - 1, 1);
+      console.log("후", boardList);
+      boardList.splice(index, 0, taskObj);
+      console.log("결과", boardList);
+      let allBoards = {};
+      boardList.map((board) => {
+        allBoards = { ...allBoards, [board]: boards[board] };
+      });
       setEditForm((prev) => !prev);
-      return { ...cp };
+      return {
+        ...allBoards,
+      };
     });
   };
 

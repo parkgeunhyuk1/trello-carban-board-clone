@@ -44,7 +44,6 @@ const DraggableCard = ({
     setToDos((allBoards) => {
       let copyBoards = { ...allBoards };
       const result = copyBoards[boardId].filter((item) => item.id !== toDoId);
-      console.log(result);
       copyBoards[boardId] = result;
       return { ...copyBoards };
     });

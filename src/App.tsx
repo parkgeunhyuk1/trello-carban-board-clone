@@ -51,7 +51,6 @@ function App() {
   };
   const onDragEnd = (info: DropResult) => {
     const { destination, source, type } = info;
-    console.log(info);
     if (!destination) return;
     if (type === "CARD" && destination?.droppableId === source.droppableId) {
       //same board movement
@@ -75,7 +74,6 @@ function App() {
       setToDos((allBoards) => {
         const sourceBoard = [...allBoards[source.droppableId]];
         const taskObj = sourceBoard[source.index];
-        console.log({ ...allBoards[destination.droppableId] });
         const destinationBoard = [...allBoards[destination.droppableId]];
 
         sourceBoard.splice(source.index, 1);
@@ -89,7 +87,6 @@ function App() {
     }
     if (destination.droppableId === "Remove") {
       setToDos((allBoards) => {
-        //console.log(allBoards);
         const boardCopy = [...allBoards[source.droppableId]];
         boardCopy.splice(source.index, 1);
         return {
@@ -104,20 +101,6 @@ function App() {
         const taskObj = boardList[source.index];
         boardList.splice(source.index, 1);
         boardList.splice(destination?.index, 0, taskObj);
-        let boards = {};
-        boardList.map((board) => {
-          boards = { ...boards, [board]: allBoards[board] };
-        });
-        return {
-          ...boards,
-        };
-      });
-    }
-    if (destination.droppableId === "DeleteBoard") {
-      setToDos((allBoards) => {
-        const boardList = Object.keys(allBoards);
-        boardList.splice(source.index, 1);
-        console.log(boardList);
         let boards = {};
         boardList.map((board) => {
           boards = { ...boards, [board]: allBoards[board] };

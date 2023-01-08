@@ -58,8 +58,10 @@ const DraggableCard = ({
       return;
     }
     setToDos((boards) => {
-      let copyBoards = { ...boards };
-      console.log(copyBoards[boardId][index]);
+      const copyBoards = JSON.parse(JSON.stringify(boards));
+      console.log("카피보드", copyBoards);
+      console.log("보드아이디", copyBoards[boardId]);
+      console.log("인덱스", copyBoards[boardId][index]);
       copyBoards[boardId][index].text = textEdited;
       setEditState((prev) => !prev);
       return { ...copyBoards };

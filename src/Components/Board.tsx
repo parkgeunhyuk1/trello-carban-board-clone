@@ -87,8 +87,8 @@ function Board({ toDos, boardId, index, boards }: IBoardProps) {
     }
     setToDos((boards) => {
       let cp = { ...boards };
-      cp[boardName] = cp[boardId];
-      delete cp[boardId];
+      console.log(cp);
+      setEditForm((prev) => !prev);
       return { ...cp };
     });
   };
@@ -139,6 +139,7 @@ function Board({ toDos, boardId, index, boards }: IBoardProps) {
                 <input
                   onChange={(e) => {
                     e.preventDefault();
+                    setBoardName(e.target.value);
                   }}
                 />
               </Form>
